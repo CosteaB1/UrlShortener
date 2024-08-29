@@ -6,3 +6,17 @@ services:
     build:
       context: .
       dockerfile: UrlShortener/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+
+  urlshortener-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: UrlShortener.Db
+    volumes:
+      - ./containers/database:/var/opt/mssql/data
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Strong_password_123!"
