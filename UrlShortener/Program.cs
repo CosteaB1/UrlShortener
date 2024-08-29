@@ -54,6 +54,17 @@ app.MapPost("api/shortener", async (ShortenUrlRequest request,
 
 });
 
+app.MapGet("api/{code}", async (string code, ApplicationDbContext dbContext) =>
+{
+    var shortenedUrl = await dbContext.ShortenedUrls.FirstOrDefaultAsync(s => s.Code == code);
+    if (shortenedUrl == null)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.Redirect(shortenedUrl.LongUrl);
+});
+
 app.UseHttpsRedirection();
 
 app.Run();
