@@ -56,6 +56,7 @@ app.MapPost("api/shortener", async (ShortenUrlRequest request,
 
 app.MapGet("api/{code}", async (string code, ApplicationDbContext dbContext) =>
 {
+    //ToDo to add cache not to call db every time
     var shortenedUrl = await dbContext.ShortenedUrls.FirstOrDefaultAsync(s => s.Code == code);
     if (shortenedUrl == null)
     {
